@@ -8,7 +8,7 @@ OF HERITAGE INSTITUTE OF TECHNOLOGY
 ## Authors :ledger:
 
 ### SUBMITTED TO: 
-- Mohuya Byabartta Kar
+- Dr. Mohuya Byabartta Kar
 ### SUBMITTED BY:
 - Himanshu Rai, 2051266
 - Srinjoy Ray, 2051073
