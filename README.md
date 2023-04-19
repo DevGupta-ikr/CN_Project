@@ -87,7 +87,7 @@ When the sent button is clicked, in the background, the text in the textbox is e
 &nbsp;
 ## Documentation :bookmark:
 
-Please read the complete Documentation [**here**](https://github.com/DevGupta-ikr/CN_Project/blob/main/DOCUMENTATION.pdf)
+Please read the complete Documentation [**here**](https://github.com/HIMU-2001/CN_Project/blob/main/DOCUMENTATION.pdf)
 
 
 
