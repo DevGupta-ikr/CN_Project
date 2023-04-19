@@ -44,6 +44,22 @@ The server module of the application waits for the client to connect to it. Then
 The client module is the one that the utilizer sends requests to the server. Utilizer utilizes the client as the means to connect to the server. Once he establishes the connection, he can communicate to the connected server.
 
 
+## Working Model
+
+### Server for 1:1 Chatting Application
+<hr>
+<img src="https://user-images.githubusercontent.com/77541795/233034073-920d2e30-4699-4ed1-8017-d96a9d35f0be.png" width="218" height="270">
+
+### Server and Client for 1:1 Chatting Application
+<hr>
+<img src="https://user-images.githubusercontent.com/77541795/233035755-1e2e5447-6800-4854-b998-8bf71b92ff5c.png" width="480" height="270">
+
+
+### Server and Clients for Group Chatting Application
+<hr>
+<img src="https://user-images.githubusercontent.com/77541795/233037423-c94fa91f-b4c3-4c5a-a963-592497c054ca.png" width="480" height="270">
+
+
 ## Requirements
 
 ### User Interface
