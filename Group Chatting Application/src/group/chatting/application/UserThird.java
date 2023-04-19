@@ -1,3 +1,7 @@
+/**
+This class represents the Third user of the Group Chatting Application.
+*/
+
 package group.chatting.application;
 
 import javax.swing.*;
@@ -9,7 +13,8 @@ import java.text.*;
 import java.net.*;
 import java.io.*;
 
-public class UserThird implements ActionListener, Runnable {
+public class UserThird implements ActionListener, Runnable 
+{
     
     JTextField text;
     JPanel a1;
@@ -21,7 +26,8 @@ public class UserThird implements ActionListener, Runnable {
     BufferedWriter writer;
     String name = "Jack";
     
-    UserThird() {
+    UserThird() 
+    {
         
         f.setLayout(null);
         
@@ -109,17 +115,21 @@ public class UserThird implements ActionListener, Runnable {
         
         f.setVisible(true);
         
-        try {
+        try 
+        {
             Socket socket = new Socket("localhost", 2003);
             writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public void actionPerformed(ActionEvent ae) {
-        try {
+    public void actionPerformed(ActionEvent ae) 
+    {
+        try 
+        {
             String out = "<html><p>" + name + "</p><p>" + text.getText() + "</p></html>";
 
             JPanel p2 = formatLabel(out);
@@ -134,11 +144,13 @@ public class UserThird implements ActionListener, Runnable {
 
             a1.add(vertical, BorderLayout.PAGE_START);
 
-            try {
+            try 
+            {
                 writer.write(out);
                 writer.write("\r\n");
                 writer.flush();
-            } catch (Exception e) {
+            } 
+            catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -147,12 +159,14 @@ public class UserThird implements ActionListener, Runnable {
             f.repaint();
             f.invalidate();
             f.validate();   
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public static JPanel formatLabel(String out) {
+    public static JPanel formatLabel(String out) 
+    {
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -176,12 +190,16 @@ public class UserThird implements ActionListener, Runnable {
         return panel;
     }
     
-    public void run() {
-        try {
+    public void run() 
+    {
+        try 
+        {
             String msg = "";
-            while(true) {
+            while(true) 
+            {
                 msg = reader.readLine();
-                if (msg.contains(name)) {
+                if (msg.contains(name)) 
+                {
                     continue;
                 }
                 
@@ -198,12 +216,15 @@ public class UserThird implements ActionListener, Runnable {
                 f.invalidate();
                 f.validate();   
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
+        // Create an instance of UserThird and start a new thread to run it
         UserThird third = new UserThird();
         Thread t1 = new Thread(third);
         t1.start();

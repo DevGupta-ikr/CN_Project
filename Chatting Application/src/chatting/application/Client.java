@@ -1,3 +1,7 @@
+/**
+This class represents the Client of the Chatting Application.
+*/
+
 package chatting.application;
 
 import javax.swing.*;
@@ -9,18 +13,20 @@ import java.text.*;
 import java.net.*;
 import java.io.*;
 
-public class Client implements ActionListener {
+public class Client implements ActionListener 
+{
     
-    JTextField text;
-    static JPanel a1;
-    static Box vertical = Box.createVerticalBox();
+    JTextField text;  // Text field for user input
+    static JPanel a1; // Panel to display chat messages declared statically
+    static Box vertical = Box.createVerticalBox();  // Box to store messages vertically declared statically
     
-    static JFrame f = new JFrame();
+    static JFrame f = new JFrame(); // Main frame of the chat application declared statically
     
-    static DataOutputStream dout;
+    static DataOutputStream dout; // Data output stream to send messages to the server declared statically
     
-    Client() {
-        
+    Client() 
+    {
+        // Creating the UI for the application
         f.setLayout(null);
         
         JPanel p1 = new JPanel();
@@ -36,6 +42,10 @@ public class Client implements ActionListener {
         back.setBounds(5, 20, 25, 25);
         p1.add(back);
         
+        /**
+         * This code attaches a mouse listener to the "back" button. 
+         * When the button is clicked, it exits the program by calling the System.exit()  
+        */
         back.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent ae) {
                 System.exit(0);
@@ -107,8 +117,10 @@ public class Client implements ActionListener {
         f.setVisible(true);
     }
     
-    public void actionPerformed(ActionEvent ae) {
-        try {
+    public void actionPerformed(ActionEvent ae) 
+    {
+        try 
+        {
             String out = text.getText();
 
             JPanel p2 = formatLabel(out);
@@ -129,15 +141,21 @@ public class Client implements ActionListener {
             f.repaint();
             f.invalidate();
             f.validate();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public static JPanel formatLabel(String out) {
+    public static JPanel formatLabel(String out) 
+    {
+        /**
+        * Formats the label for the message to be displayed in the chat window.
+        */ 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         
+        // Create a new label for the message and set its font, background color, and border
         JLabel output = new JLabel("<html><p style=\"width: 150px\">" + out + "</p></html>");
         output.setFont(new Font("Tahoma", Font.PLAIN, 16));
         output.setBackground(new Color(0, 128, 255));
@@ -152,24 +170,37 @@ public class Client implements ActionListener {
         JLabel time = new JLabel();
         time.setText(sdf.format(cal.getTime()));
         
+        // Add the timestamp label to the panel
         panel.add(time);
         
+        // Return the formatted panel
         return panel;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
+        // Create an instance of the Client class to start the server and display the UI
         new Client();
         
-        try {
+        try 
+        {
+            // Connect to the server on localhost:6001
             Socket s = new Socket("127.0.0.1", 6001);
+
+            // Create input and output streams for the socket
             DataInputStream din = new DataInputStream(s.getInputStream());
             dout = new DataOutputStream(s.getOutputStream());
             
-            while(true) {
+            // Continuously listen for incoming messages from the server
+            while(true) 
+            {
                 a1.setLayout(new BorderLayout());
+
+                // Read the incoming message from the socket and create a panel to display it
                 String msg = din.readUTF();
                 JPanel panel = formatLabel(msg);
 
+                // Add the panel to the chat interface and display it
                 JPanel left = new JPanel(new BorderLayout());
                 left.add(panel, BorderLayout.LINE_START);
                 vertical.add(left);
@@ -179,7 +210,8 @@ public class Client implements ActionListener {
                 
                 f.validate();
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
