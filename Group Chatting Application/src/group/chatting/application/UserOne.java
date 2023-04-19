@@ -1,3 +1,7 @@
+/**
+This class represents the First user of the Group Chatting Application.
+*/
+
 package group.chatting.application;
 
 import javax.swing.*;
@@ -9,20 +13,23 @@ import java.text.*;
 import java.net.*;
 import java.io.*;
 
-public class UserOne implements ActionListener, Runnable {
-    
+public class UserOne implements ActionListener, Runnable 
+{
+    // Creating UI components for the group chat application     
     JTextField text;
     JPanel a1;
     static Box vertical = Box.createVerticalBox();
     static JFrame f = new JFrame();
-    static DataOutputStream dout;
+    static DataOutputStream dout; //DataOutputStream is used to write data to the server
     
+    // BufferedReader and BufferedWriter are used to read and write data respectively
     BufferedReader reader;
     BufferedWriter writer;
     String name = "John";
     
-    UserOne() {
-        
+    UserOne() 
+    {
+          
         f.setLayout(null);
         
         JPanel p1 = new JPanel();
@@ -38,6 +45,10 @@ public class UserOne implements ActionListener, Runnable {
         back.setBounds(5, 20, 25, 25);
         p1.add(back);
         
+        /**
+         * This code attaches a mouse listener to the "back" button. 
+         * When the button is clicked, it exits the program by calling the System.exit()  
+        */
         back.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent ae) {
                 System.exit(0);
@@ -109,17 +120,26 @@ public class UserOne implements ActionListener, Runnable {
         
         f.setVisible(true);
         
-        try {
+        try 
+        {
             Socket socket = new Socket("localhost", 2003);
             writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public void actionPerformed(ActionEvent ae) {
-        try {
+    public void actionPerformed(ActionEvent ae) 
+    {
+        /**
+         * This method is called when the user clicks the "Send" button in the chat window.
+         * It sends the text message entered by the user to the server and displays it on the chat window.
+        */
+        try 
+        {
+            // Get the text entered by the user
             String out = "<html><p>" + name + "</p><p>" + text.getText() + "</p></html>";
 
             JPanel p2 = formatLabel(out);
@@ -134,29 +154,39 @@ public class UserOne implements ActionListener, Runnable {
 
             a1.add(vertical, BorderLayout.PAGE_START);
 
-            try {
+            try 
+            {
                 writer.write(out);
                 writer.write("\r\n");
                 writer.flush();
-            } catch (Exception e) {
+            } 
+            catch (Exception e) {
                 e.printStackTrace();
             }
 
+            // Clear the text field
             text.setText("");
 
+            // Refresh the chat window
             f.repaint();
             f.invalidate();
             f.validate();   
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public static JPanel formatLabel(String out) {
+    public static JPanel formatLabel(String out) 
+    {
+        /**
+        * Formats the label for the message to be displayed in the chat window.
+        */ 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         
+        // Create a new label for the message and set its font, background color, and border
         JLabel output = new JLabel("<html><p style=\"width: 150px\">" + out + "</p></html>");
         output.setFont(new Font("Tahoma", Font.PLAIN, 16));
         output.setBackground(new Color(0, 128, 255));
@@ -171,22 +201,33 @@ public class UserOne implements ActionListener, Runnable {
         JLabel time = new JLabel();
         time.setText(sdf.format(cal.getTime()));
         
+        // Add the timestamp label to the panel
         panel.add(time);
         
+        // Return the formatted panel
         return panel;
     }
     
-    public void run() {
-        try {
+    public void run() 
+    {
+        try 
+        {
             String msg = "";
-            while(true) {
+            while(true) 
+            {
+                // Read messages from the server
                 msg = reader.readLine();
-                if (msg.contains(name)) {
+
+                // Ignore messages containing the name of this user
+                if (msg.contains(name)) 
+                {
                     continue;
                 }
                 
+                // Format the message into a JPanel
                 JPanel panel = formatLabel(msg);
                 
+                // Add the formatted message to the UI
                 JPanel left = new JPanel(new BorderLayout());
                 left.setBackground(Color.WHITE);
                 left.add(panel, BorderLayout.LINE_START);
@@ -194,16 +235,20 @@ public class UserOne implements ActionListener, Runnable {
                 
                 a1.add(vertical, BorderLayout.PAGE_START);
                 
+                // Repaint the UI
                 f.repaint();
                 f.invalidate();
                 f.validate();   
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
+        // Create an instance of UserOne and start a new thread to run it
         UserOne one = new UserOne();
         Thread t1 = new Thread(one);
         t1.start();
