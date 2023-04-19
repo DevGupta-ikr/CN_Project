@@ -1,3 +1,7 @@
+/**
+This class represents the Server of the Chatting Application.
+*/
+
 package chatting.application;
 
 import javax.swing.*;
@@ -9,16 +13,18 @@ import java.text.*;
 import java.net.*;
 import java.io.*;
 
-public class Server implements ActionListener {
+public class Server implements ActionListener 
+{
     
-    JTextField text;
-    JPanel a1;
-    static Box vertical = Box.createVerticalBox();
-    static JFrame f = new JFrame();
-    static DataOutputStream dout;
+    JTextField text; // text field to enter message
+    JPanel a1; // panel to display messages
+    static Box vertical = Box.createVerticalBox(); // vertical box to store messages declared statically
+    static JFrame f = new JFrame(); // frame to display UI declared statically
+    static DataOutputStream dout; // output stream to send messages from server to client declared statically
     
-    Server() {
-        
+    Server() 
+    {
+        // Creating the UI for the application
         f.setLayout(null);
         
         JPanel p1 = new JPanel();
@@ -34,6 +40,10 @@ public class Server implements ActionListener {
         back.setBounds(5, 20, 25, 25);
         p1.add(back);
         
+        /**
+         * This code attaches a mouse listener to the "back" button. 
+         * When the button is clicked, it exits the program by calling the System.exit()  
+        */
         back.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent ae) {
                 System.exit(0);
@@ -105,12 +115,21 @@ public class Server implements ActionListener {
         f.setVisible(true);
     }
     
-    public void actionPerformed(ActionEvent ae) {
-        try {
+    public void actionPerformed(ActionEvent ae) 
+    {
+
+        /**
+         * This method is called when the user clicks the "Send" button in the chat window.
+         * It sends the text message entered by the user to the server and displays it on the chat window.
+        */
+        try 
+        {
+            // Get the text entered by the user
             String out = text.getText();
 
             JPanel p2 = formatLabel(out);
 
+            // Set the layout of the chat window and add the new JPanel to it
             a1.setLayout(new BorderLayout());
 
             JPanel right = new JPanel(new BorderLayout());
@@ -119,49 +138,71 @@ public class Server implements ActionListener {
             vertical.add(Box.createVerticalStrut(15));
 
             a1.add(vertical, BorderLayout.PAGE_START);
-
+            
+            // Send the text message to the server
             dout.writeUTF(out);
 
+            // Clear the text field
             text.setText("");
 
+            // Refresh the chat window
             f.repaint();
             f.invalidate();
             f.validate();   
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public static JPanel formatLabel(String out) {
+    public static JPanel formatLabel(String out) 
+    {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         
+        // create a label with formatted text
         JLabel output = new JLabel("<html><p style=\"width: 150px\">" + out + "</p></html>");
         output.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        
+        // set the background color of the label to blue
         output.setBackground(new Color(0, 128, 255));
         output.setOpaque(true);
+        
+        // set the empty border around the label
         output.setBorder(new EmptyBorder(15, 15, 15, 50));
         
+         // add the label to the panel
         panel.add(output);
         
+        // get the current time and format it
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         
+        // create a label with the time and add it to the panel
         JLabel time = new JLabel();
         time.setText(sdf.format(cal.getTime()));
         
         panel.add(time);
         
+        // return the panel with the formatted label and time
         return panel;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
+        // Create an instance of the Server class to start the server and display the UI
         new Server();
         
-        try {
+        try 
+        {
+            // Create a server socket on port 6001 to accept incoming connections
             ServerSocket skt = new ServerSocket(6001);
+
+            // Continuously accept new client connections
             while(true) {
                 Socket s = skt.accept();
+                
+                 // Create input and output streams for the client socket
                 DataInputStream din = new DataInputStream(s.getInputStream());
                 dout = new DataOutputStream(s.getOutputStream());
                 
@@ -169,14 +210,16 @@ public class Server implements ActionListener {
                     String msg = din.readUTF();
                     JPanel panel = formatLabel(msg);
                     
+                    // Create a JPanel to hold the message, and add it to the chat window
                     JPanel left = new JPanel(new BorderLayout());
                     left.add(panel, BorderLayout.LINE_START);
                     vertical.add(left);
-                    f.validate();
+                    f.validate(); // Update the UI to display the new message
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } 
+        catch (Exception e) {
+            e.printStackTrace(); // If there is an error, print the stack trace for debugging purposes
         }
     }
 }
