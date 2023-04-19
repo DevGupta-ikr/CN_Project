@@ -87,13 +87,13 @@ When the sent button is clicked, in the background, the text in the textbox is e
 &nbsp;
 ## Documentation :bookmark:
 
-Please read the complete Documentation [here](https://docs.google.com/document/d/14W5_KmXE2t-0JvxvWK4DbBZYS_LNlAGhM5tzkHtMXLo/edit?usp=drivesdk)
+Please read the complete Documentation [**here**](https://github.com/DevGupta-ikr/CN_Project/blob/main/DOCUMENTATION.pdf)
 
 
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[**MIT**](https://choosealicense.com/licenses/mit/)
 
 
 ## Conclusion
